@@ -48,3 +48,15 @@ pip install -r requirements.txt
 ```bash
 bash scripts/run_realworldqa.sh
 ```
+
+
+---
+
+## 🚀 Running MathVista Baseline
+
+This runs Qwen3-VL on MathVista (math reasoning from images).
+
+### Run baseline
+
+```bash
+bash scripts/run_mathvista.sh
