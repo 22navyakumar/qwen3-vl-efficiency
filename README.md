@@ -74,9 +74,20 @@ This runs Qwen3-VL on the MMMU benchmark using the **Math** subset.
 bash scripts/run_mmmu.sh
 ```
 
+---
 
+## 🚀 Running DocVQA Baseline
 
+This runs Qwen3-VL on DocVQA (document question answering).
+
+### Run baseline
+
+```bash
+bash scripts/run_docvqa.sh
+```
+##  Summary of Benchmarks
 ```md
 - RealWorldQA → general visual reasoning  
 - MathVista → math reasoning from images  
 - MMMU → multiple-choice reasoning with images
+- DocVQA → document understanding and reading text from images  
