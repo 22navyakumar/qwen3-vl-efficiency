@@ -60,3 +60,23 @@ This runs Qwen3-VL on MathVista (math reasoning from images).
 
 ```bash
 bash scripts/run_mathvista.sh
+```
+---
+
+
+## 🚀 Running MMMU Baseline
+
+This runs Qwen3-VL on the MMMU benchmark using the **Math** subset.
+
+### Run baseline
+
+```bash
+bash scripts/run_mmmu.sh
+```
+
+
+
+```md
+- RealWorldQA → general visual reasoning  
+- MathVista → math reasoning from images  
+- MMMU → multiple-choice reasoning with images
