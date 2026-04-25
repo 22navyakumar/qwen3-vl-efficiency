@@ -8,3 +8,4 @@ tqdm
 numpy
 pandas
 matplotlib
+kvpress
