@@ -35,6 +35,7 @@ Results are appended as JSONL to results/kv_compression/:
     <dataset>_modality_i<img>_t<txt>.jsonl              (modality-aware)
 """
 
+import ast
 import os
 import json
 import time
@@ -64,7 +65,7 @@ DATASET_CONFIGS = {
     "mathvista": {
         "hf_name": "AI4Math/MathVista",
         "hf_subset": None,
-        "split": "test",
+        "split": "testmini",
         "max_new_tokens": 32,
     },
     "mmmu": {
@@ -100,13 +101,28 @@ def extract_sample(name: str, sample: dict):
         )
     if name == "mmmu":
         options = sample["options"]
+        if isinstance(options, str):
+            try:
+                options = ast.literal_eval(options)
+            except (ValueError, SyntaxError):
+                options = [options]
+        formatted_options = "\n".join(
+            f"{chr(65 + i)}. {opt}" for i, opt in enumerate(options)
+        )
         question = (
             sample["question"]
             + "\nOptions:\n"
-            + "\n".join(options)
+            + formatted_options
             + "\nAnswer with only the correct option letter and nothing else."
         )
-        return sample["image_1"], question, str(sample["answer"])
+        gt_letter = str(sample["answer"]).strip()
+        # Allow letter-or-text matching: pack GT as ("C", "Not exist")
+        idx = ord(gt_letter.upper()) - ord("A") if gt_letter[:1].isalpha() else -1
+        if 0 <= idx < len(options):
+            gt_payload = [gt_letter, str(options[idx])]
+        else:
+            gt_payload = gt_letter
+        return sample["image_1"], question, gt_payload
     if name == "docvqa":
         answers = sample.get("answers", ["N/A"])
         return sample["image"], sample["question"], answers
